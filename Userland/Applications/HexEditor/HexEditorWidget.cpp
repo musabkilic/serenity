@@ -82,8 +82,17 @@ ErrorOr<void> HexEditorWidget::setup()
         m_editor->update();
     };
 
-    m_editor->on_status_change = [this](int position, HexEditor::HexEditor::EditMode edit_mode, auto selection) {
-        m_statusbar->set_text(0, String::formatted("Offset: {:#08X}", position).release_value_but_fixme_should_propagate_errors());
+    m_editor->on_status_change = [this](int position, HexEditor::HexEditor::OffsetFormat offset_format, HexEditor::HexEditor::EditMode edit_mode, auto selection) {
+        String offset_text;
+        switch (offset_format) {
+        case HexEditor::HexEditor::OffsetFormat::Decimal:
+            offset_text = MUST(String::formatted("{:010d}", position));
+            break;
+        case HexEditor::HexEditor::OffsetFormat::Hexadecimal:
+            offset_text = MUST(String::formatted("{:#08X}", position));
+            break;
+        }
+        m_statusbar->set_text(0, String::formatted("Offset: {}", offset_text).release_value_but_fixme_should_propagate_errors());
         m_statusbar->set_text(1, String::formatted("Edit Mode: {}", edit_mode == HexEditor::HexEditor::EditMode::Hex ? "Hex" : "Text").release_value_but_fixme_should_propagate_errors());
         m_statusbar->set_text(2, String::formatted("Selection Start: {}", selection.start).release_value_but_fixme_should_propagate_errors());
         m_statusbar->set_text(3, String::formatted("Selection End: {}", selection.end).release_value_but_fixme_should_propagate_errors());

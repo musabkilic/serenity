@@ -265,6 +265,7 @@ void HexEditor::set_offset_format(OffsetFormat format)
 
     m_offset_format = format;
     update_content_size();
+    update_status();
 }
 
 void HexEditor::set_bytes_per_row(size_t bytes_per_row)
@@ -677,7 +678,7 @@ void HexEditor::theme_change_event(GUI::ThemeChangeEvent&)
 void HexEditor::update_status()
 {
     if (on_status_change)
-        on_status_change(m_position, m_edit_mode, m_selection);
+        on_status_change(m_position, m_offset_format, m_edit_mode, m_selection);
 }
 
 void HexEditor::did_change()

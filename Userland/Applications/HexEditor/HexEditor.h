@@ -79,7 +79,7 @@ public:
     Optional<size_t> find_and_highlight(ByteBuffer& needle, size_t start = 0);
     Vector<Match> find_all(ByteBuffer& needle, size_t start = 0);
     Vector<Match> find_all_strings(size_t min_length = 4);
-    Function<void(size_t position, EditMode, Selection)> on_status_change;
+    Function<void(size_t position, OffsetFormat, EditMode, Selection)> on_status_change;
     Function<void(bool is_document_dirty)> on_change;
 
     void show_create_annotation_dialog();
